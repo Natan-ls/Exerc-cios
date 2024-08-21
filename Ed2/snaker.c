@@ -31,11 +31,13 @@ void criaPosicaoAlvo(Cobra *cobra){
 	cobra->alvo.x = MIN_X + rand()%(MAX_X-MIN_X+1);
 	cobra->alvo.y = MIN_Y + rand()%(MAX_Y-MIN_Y+1);
 	gotoxy(cobra->alvo.x, cobra->alvo.y);
+	textcolor(4);
 	printf("$");
 }
 
 void printPontos(Cobra *cobra){
 	gotoxy(9,1);
+	textcolor(7);
 	printf("%d", cobra->tamanho_cobra-1);
 }
 
@@ -74,6 +76,7 @@ Cobra *criaCobra(){
 void printCobra(Cobra *cobra){
 	Ponto *p = cobra->cabeca;
 	do{
+		textcolor(7);
 		gotoxy(p->posicao.x, p->posicao.y);
 		printf("%c", p->tipo_corpo);
 		p = p->proximo;
@@ -120,11 +123,16 @@ void movimentaCobra(Cobra *cobra, char tecla){
 }
 
 int main(){
+	textbackground(0);
 	int maxPontos;
 	printf("Quantos alvos desejas???\n");
 	scanf(" %d", &maxPontos);
 	system("clear");
 	printf("Alvos = 0/%d", maxPontos);
+	gotoxy(1,2);
+	for(int x = 0; x < MAX_X; x++){
+		printf("_");
+	};
 	cursor(0);
 	Cobra *cobra = criaCobra();
 	printPontos(cobra);
@@ -134,7 +142,7 @@ int main(){
 		char tecla = getch();
 		movimentaCobra(cobra, tecla);
 	}
-	gotoxy(1,2);
+	gotoxy(1,4);
 	printf("PARABÉNS!!!!!!!");
 	return 0;
 }
