@@ -39,9 +39,10 @@ int interface(){
 
 Fila* cadastrar(Fila* fila_doc){
 	Doc* novo_doc = (Doc*) malloc(sizeof(Doc));
-	printf("Informe o nome:\n");
+	printf("Informe o nome: ");
 	scanf(" %[^\n]s", novo_doc->nome);
-	//printf("Informe o numero de paginas:\n");
+	/*printf("Informe o numero de paginas: ");
+	scanf(" %d", &novo_doc->tamanho);*/
 	novo_doc->tamanho = rand()% 10;
 	novo_doc->proximo = NULL;
 	novo_doc->anterior = fila_doc->fim_fila;
@@ -52,8 +53,6 @@ Fila* cadastrar(Fila* fila_doc){
 		fila_doc->fim_fila = novo_doc;
 		return fila_doc;
 	}
-	
-	//if(fila_doc->fim_fila)
 	fila_doc->fim_fila->proximo = novo_doc;
 	fila_doc->fim_fila = novo_doc;
 	
@@ -69,7 +68,6 @@ void mostrar(Fila* fila_doc){
 	Doc *p_Doc = fila_doc->inicio_fila;
 	while(p_Doc){
 		printf("\nNome do documento:%s\nNumero de paginas: %d\n", p_Doc->nome, p_Doc->tamanho);
-		printf("Anterior:%s\tDepois:%s\n\n", p_Doc->anterior->nome, p_Doc->proximo->nome);
 		p_Doc = p_Doc->proximo;
 	}
 }
@@ -124,8 +122,7 @@ Fila *imprimirDoc(Fila *fila_doc){
 		mensagemNenhumDocumento();
 		return fila_doc;
 	}
-	printf("\n%s\t%d Páginas\nImprimindo.....\n\n", fila_doc->inicio_fila->nome,
-													fila_doc->inicio_fila->tamanho);
+	printf("\nDocumento: %s\t%d Páginas\nImprimindo.....\n\n", fila_doc->inicio_fila->nome, fila_doc->inicio_fila->tamanho);
 	Doc *remove = fila_doc->inicio_fila;
 	fila_doc->inicio_fila = fila_doc->inicio_fila->proximo;
 	if(!fila_doc->inicio_fila)
@@ -143,7 +140,6 @@ Fila *priorizarDocumento(Fila *fila_doc){
 		return fila_doc;
 	}
 	char pesq[10];
-	//mostrar(*pFila);
 	if(fila_doc->inicio_fila == fila_doc->fim_fila){
 		printf("Esse documento já está na prioridade!\n\n");
 		return fila_doc;
@@ -182,6 +178,12 @@ Fila *priorizarDocumento(Fila *fila_doc){
 	return fila_doc;
 }
 
+void aguardarEnter(){
+	printf("\nPressione ENTER....\n");
+	setbuf(stdin,NULL);
+	getchar();
+}
+
 int main(){
 	Fila *fila_documentos = NULL;
 	fila_documentos = criaFila();
@@ -203,16 +205,9 @@ int main(){
 			case 5:
 				fila_documentos = priorizarDocumento(fila_documentos);
 				break;
-			case 6: 
-				Doc *lista = fila_documentos->inicio_fila;
-				Doc *fim = fila_documentos->fim_fila;
-				printf("\n\t%s\n\t%s\n", lista->nome, fim->nome);
-				if(lista)
-					printf("Fila = Anterior:%s\tDepois:%s\n\n", lista->anterior->nome, lista->proximo->nome);
-				if(fim)
-					printf("Fim_fila = Anterior:%s\tDepois:%s\n\n", fim->anterior->nome, fim->proximo->nome);
-				break;
 			case 0:	return 0;
 		}
+		aguardarEnter();
+		system("clear");
 	}
 }
